@@ -1,0 +1,6 @@
+{
+  "name": "TableSense OS",
+  "description": "The AI Operating System for Restaurants — connects customers, staff, kitchen, inventory, tables, and management into a single real-time intelligence layer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
