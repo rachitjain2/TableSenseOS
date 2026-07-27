@@ -158,6 +158,24 @@ export const SidebarNav: React.FC = () => {
           </button>
         </div>
       )}
+
+      {/* Team & Mission Footer */}
+      {!collapsed && (
+        <div className="px-3 pb-3 pt-1 text-center">
+          <button
+            onClick={() => setActiveTab('settings')}
+            className="w-full text-center group transition-opacity hover:opacity-80 focus:outline-none"
+            title="Click to view Team Vision & Members in Settings"
+          >
+            <p className="text-[10px] text-[var(--text-muted)] group-hover:text-indigo-400 leading-tight transition-colors">
+              Proudly built by a passionate multidisciplinary team dedicated to revolutionizing restaurant operations with AI.
+            </p>
+            <span className="text-[9px] font-mono text-indigo-400 mt-1 inline-block opacity-80 group-hover:underline">
+              Meet the Team & Vision →
+            </span>
+          </button>
+        </div>
+      )}
     </aside>
   );
 };
