@@ -1,7 +1,8 @@
 import React from 'react';
-import { Search, Sparkles, Sun, Moon, Building2, UserCheck, ShieldCheck, Smartphone, Monitor } from 'lucide-react';
+import { Search, Sparkles, Sun, Moon, Building2, UserCheck, ShieldCheck, Smartphone, Monitor, LogOut } from 'lucide-react';
 import { useUIStore } from '../../stores/useUIStore';
 import { useRestaurantStore } from '../../stores/useRestaurantStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import { AutonomousActionsLogModal } from './AutonomousActionsLogModal';
 import { UserRole } from '../../types';
 
@@ -21,6 +22,7 @@ export const TopBar: React.FC = () => {
   } = useUIStore();
 
   const { activeBranchId, setActiveBranch, branches, healthScore } = useRestaurantStore();
+  const { user, signOut } = useAuthStore();
 
   const activeBranch = branches.find((b) => b.id === activeBranchId) || branches[0];
 
@@ -139,6 +141,27 @@ export const TopBar: React.FC = () => {
         >
           {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
         </button>
+
+        {/* User Email & Sign Out */}
+        {user && (
+          <div className="flex items-center gap-2 pl-2 border-l border-[var(--border-muted)]">
+            <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-xl bg-[var(--surface-2)] border border-[var(--border-muted)]">
+              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                {user.email?.charAt(0) || 'U'}
+              </div>
+              <span className="text-xs text-[var(--text-secondary)] font-medium max-w-[120px] truncate">
+                {user.email}
+              </span>
+            </div>
+            <button
+              onClick={() => signOut()}
+              className="p-2 rounded-xl text-[var(--text-muted)] hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
