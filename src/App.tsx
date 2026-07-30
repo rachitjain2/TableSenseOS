@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { useUIStore } from './stores/useUIStore';
-import { useAuthStore } from './stores/useAuthStore';
 import { TopBar } from './components/ui/TopBar';
 import { SidebarNav } from './components/ui/SidebarNav';
 import { CommandPalette } from './components/ui/CommandPalette';
 import { AICopilotModal } from './components/ui/AICopilotModal';
-import { AuthPage } from './components/auth/AuthPage';
 
 // Views
 import { DashboardView } from './components/command-center/DashboardView';
@@ -23,16 +21,9 @@ import { MultiBranchView } from './components/command-center/MultiBranchView';
 import { AnalyticsView } from './components/command-center/AnalyticsView';
 import { SettingsView } from './components/command-center/SettingsView';
 import { GuestAppView } from './components/guest/GuestAppView';
-import { Sparkles } from 'lucide-react';
 
 export function App() {
   const { viewMode, activeTab, theme } = useUIStore();
-  const { session, loading, initialize } = useAuthStore();
-
-  // Initialize Supabase auth listener on mount
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
 
   useEffect(() => {
     // Synchronize global theme attribute on root HTML node
@@ -43,30 +34,6 @@ export function App() {
       root.classList.remove('dark');
     }
   }, [theme]);
-
-  // Loading state — show a branded spinner while checking auth
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-main)' }}>
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-indigo-500/25 animate-pulse">
-            <Sparkles className="w-7 h-7 text-white" />
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '0ms' }} />
-            <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
-          </div>
-          <p className="text-sm text-[var(--text-muted)] font-medium">Initializing TableSense OS...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Not authenticated — show auth page
-  if (!session) {
-    return <AuthPage />;
-  }
 
   // If in Guest App preview mode
   if (viewMode === 'guest-app') {
